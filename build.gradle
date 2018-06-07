@@ -4,7 +4,9 @@ buildscript {
 		springBootVersion = '2.1.0.BUILD-SNAPSHOT'
 	}
 	repositories {
+		mavenLocal()
 		mavenCentral()
+		maven { url "https://plugins.gradle.org/m2/" }
 		maven { url "https://repo.spring.io/snapshot" }
 		maven { url "https://repo.spring.io/milestone" }
 	}
@@ -12,6 +14,7 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+		classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.19.2")
 	}
 }
 
@@ -20,6 +23,7 @@ apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.palantir.docker'
 
 group = 'ua.com.vbychkovskyi.carlog'
 version = '0.0.1-SNAPSHOT'
@@ -57,4 +61,11 @@ dependencies {
 	testCompile('io.projectreactor:reactor-test')
 	testCompile("org.junit.jupiter:junit-jupiter-api:$junitVersion")
 	testCompile('org.testcontainers:testcontainers:1.7.3')
+}
+
+docker {
+	dependsOn build
+	name "${project.group}/${bootJar.baseName}"
+	files bootJar.archivePath
+	buildArgs(['JAR_FILE': "${bootJar.archiveName}"])
 }
