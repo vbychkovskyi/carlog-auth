@@ -43,6 +43,9 @@ repositories {
 	maven { url "https://repo.spring.io/milestone" }
 }
 
+ext {
+	junitVersion = '5.1.1'
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
@@ -52,4 +55,6 @@ dependencies {
 	compile("org.jetbrains.kotlin:kotlin-reflect")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('io.projectreactor:reactor-test')
+	testCompile("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+	testCompile('org.testcontainers:testcontainers:1.7.3')
 }
