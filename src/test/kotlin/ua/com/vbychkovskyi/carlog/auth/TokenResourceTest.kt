@@ -18,7 +18,7 @@ class TokenResourceTest : AbstractIntegrationTest() {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .syncBody("{\n"
                         + "  \"token\" : \"abc\",\n"
-                        + "  \"id\" : 1\n"
+                        + "  \"userUid\" : 250\n"
                         + "}")
                 .exchange()
                 .expectStatus()
@@ -30,7 +30,7 @@ class TokenResourceTest : AbstractIntegrationTest() {
                 .expectStatus()
                 .isOk
                 .expectBody()
-                .jsonPath("$.token", "abc").hasJsonPath()
+                .jsonPath("$.userUid", "250").hasJsonPath()
                 .jsonPath("$.token", "abc").hasJsonPath()
     }
 }
